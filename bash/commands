@@ -1,0 +1,110 @@
+#!/bin/bash
+
+#
+# ~/.config/bash/commands
+#
+
+if [ -d ~/.config/bash ] && [ -f ~/.config/bash/aliases ]; then
+    source ~/.config/bash/aliases
+fi
+
+config() {
+    if [ "$1" = "edit" ]; then
+            echo "Select a file to edit:"
+        while true; do
+            echo "[1] .bashrc"
+            echo "[2] commands"
+            echo "[3] aliases"
+            echo "[q] Quit"
+            read -p "Enter your choice: " choice
+
+            case $choice in
+                1)
+                    edit ~/.bashrc
+                    break
+                    ;;
+                2)
+                    edit ~/.config/bash/commands
+                    break
+                    ;;
+                3)
+                    edit ~/.config/bash/aliases
+                    break
+                    ;;
+                q)
+                    echo "Exiting..."
+                    break
+                    ;;
+                *)
+                    echo "Invalid choice. Try again."
+                    ;;
+            esac
+        done
+    elif [ "$1" = "reload" ]; then
+        source ~/.bashrc
+    elif [ "$1" = "help" ]; then        
+        echo "WIP, advanced help goes here"
+    else
+        echo ""
+        echo "### BushBash Config ###"
+        echo ""
+        echo "/Usage: config [option]"
+        echo ""
+        echo "/Options:"
+        echo "edit: Edit a config file"
+        echo "reload: Reload .bashrc file"
+        echo "help: Displays the advanced help"
+        echo ""
+    fi
+}
+
+alias() {
+    if [ "$1" = "add" ]; then
+        read -p "Please enter the alias name: " alias_name
+
+        if [[ ! $alias_name =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+            echo "Error: Alias name should start with a letter or underscore and can only contain letters, numbers, and underscores."
+            exit 1
+        fi
+
+        read -p "Please enter the command for the alias: " command
+
+        command=${command#"${command%%[![:space:]]*}"}
+        command=${command%"${command##*[![:space:]]}"}
+
+        if [[ -z $command ]]; then
+            echo "Error: Command cannot be empty after trimming leading and trailing spaces."
+            exit 1
+        fi
+
+        read -p "Please enter an optional explanation for the alias (press Enter to skip): " explanation
+
+        alias_line="alias $alias_name='$command'"
+
+        if [[ -n $explanation ]]; then
+            alias_line=$(printf "%s\n%s\n%s" "" "# $explanation" "$alias_line")
+        fi
+
+        echo "$alias_line" >> ~/.config/bash/aliases
+
+        source ~/.bashrc
+
+        echo "Alias '$alias_name' added successfully."
+    else
+        echo ""
+        echo "### BushBash Alias Manager! ###"
+        echo "This tool allows you to quickly add custom aliases to your bash config."
+        echo ""
+        echo "/Usage: alias [option]"
+        echo ""
+        echo "/Options:"
+        echo "add: Add an alias"
+        echo "    - name: Name of the alias"
+        echo "    - command: Command to assign to the alias"
+        echo "    - comment: An optional alias description"
+        echo "remove: Delete an alias"
+        echo "list: View your aliases and their descriptions"
+        echo "help: Displays the advanced help"
+        echo ""
+    fi
+}

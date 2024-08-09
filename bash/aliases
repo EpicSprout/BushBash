@@ -1,0 +1,52 @@
+#!/bin/bash
+
+#
+# ~/.config/bash/aliases
+#
+
+# Edit the .bashrc file:
+alias ebrc='edit ~/.bashrc'
+
+# Show help for the .bashrc file:
+alias brchlp='less ~/.bashrc_help'
+
+# Show the aliases file:
+alias aliaslist='less ~/.config/bash/aliases'
+
+# Show the date:
+alias da='date "+%Y-%m-%d %A %T %Z"'
+
+# General aliases:
+alias reload='eval bash'
+alias loadconfig='source ~/.bashrc'
+alias cp='cp -i'
+alias mv='mv -i'
+alias mkdir='mkdir -p'
+alias ping='ping -c 10'
+alias cl='clear'
+alias cls='clear'
+alias clr='clear'
+alias edit='nano'   
+alias less='less -R'
+alias check="type -t"
+alias checkcommand="type -t"
+
+# Change directory aliases:
+alias home='cd ~'
+alias cd.='cd ..'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../..'
+
+# Package manager aliases:          
+alias update='yay -Syu --noconfirm'
+alias get='yay -Sy'
+
+# System aliases:
+alias off='poweroff'
+alias bye='poweroff'
+alias shut='poweroff'
+alias restart='reboot'
+alias rest='reboot'
+alias restart='reboot'
